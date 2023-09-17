@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zakódování a Dekódování Textu</title>
+    <style>
+        body {
+            background-color: #cce5ff; /* Světle modré pozadí */
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            margin: 20px auto;
+            max-width: 400px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        button.copy-button {
+            background-color: #28a745; /* Zelená barva pro kopírování */
+        }
+    </style>
+</head>
+<body>
+    <h1>Zakódování a Dekódování Textu</h1>
+
+    <div class="container">
+        <textarea id="text" rows="4" placeholder="Vložte text"></textarea>
+
+        <button onclick="encodeText()">Zakódovat</button>
+        <button onclick="decodeText()">Dekódovat</button>
+        <button class="copy-button" onclick="copyText()">Kopírovat</button>
+        <button onclick="clearText()">Vymazat</button>
+
+        <textarea id="outputText" rows="4" placeholder="Výsledek"></textarea>
+    </div>
+
+    <script>
+        function encodeText() {
+            const inputText = document.getElementById("text").value;
+            const encodedText = encodeWithBackwardAlphabet(inputText);
+            document.getElementById("outputText").value = encodedText;
+        }
+
+        function decodeText() {
+            const encodedText = document.getElementById("text").value;
+            const decodedText = encodeWithBackwardAlphabet(encodedText);
+            document.getElementById("outputText").value = decodedText;
+        }
+
+        function encodeWithBackwardAlphabet(text) {
+            const alphabet = "abcdefghijklmnopqrstuvwxyz";
+            const backwardAlphabet = "zyxwvutsrqponmlkjihgfedcba";
+
+            const encodedText = text.toLowerCase().split('').map(char => {
+                const index = alphabet.indexOf(char);
+                return index !== -1 ? backwardAlphabet[index] : char;
+            }).join('');
+
+            return encodedText;
+        }
+
+        function copyText() {
+            const outputText = document.getElementById("outputText");
+            outputText.select();
+            document.execCommand("copy");
+            alert("Text byl zkopírován.");
+        }
+
+        function clearText() {
+            document.getElementById("text").value = "";
+            document.getElementById("outputText").value = "";
+        }
+    </script>
+</body>
+</html>
